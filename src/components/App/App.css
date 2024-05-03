@@ -29,8 +29,18 @@ input {
   text-align: center;
 }
 
+.feedback-container {
+  border: 1px solid blue;
+}
+
 .feedback-input {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
+}
+
+.feedback-topic {
+  display: flex;
+  justify-content: flex-start;
 }
