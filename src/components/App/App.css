@@ -21,3 +21,16 @@
 h4 {
   font-style: italic;
 }
+
+input {
+  border: 1px solid white;
+  border-bottom: 2px solid blue;
+  margin: 1em;
+  text-align: center;
+}
+
+.feedback-input {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
