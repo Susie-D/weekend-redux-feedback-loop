@@ -82,12 +82,14 @@ function App() {
                 <p className="feedback-topic">{item.topic}</p>
                 <input
                   type="text"
+                  data-testid="input"
                   value={inputValue}
                   onChange={(event) => setInputValue(event.target.value)}
                 />
                 <br />
                 <button
                   type="submit"
+                  data-testid="next"
                   onClick={() => handleSubmit(item.key, index)}
                 >
                   Next
@@ -109,6 +111,7 @@ function App() {
               );
             })}
             <button
+              data-testid="next"
               type="submit"
               onClick={() => handleSubmitPost([...feedbackSchema])}
             >
@@ -126,7 +129,9 @@ function App() {
             </h2>
 
             <Link to={'/'}>
-              <button type="button"> Leave New Feedback</button>
+              <button type="button" data-testid="next">
+                Leave New Feedback
+              </button>
             </Link>
           </div>
         </div>

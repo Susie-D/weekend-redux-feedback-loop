@@ -28,7 +28,7 @@ router.post('/', (req, res) => {
 // DO NOT EDIT THIS ROUTE
 // This route must return all feedback.
 router.get('/', (req, res) => {
-    console.log('testing', res.data)
+    // console.log('testing', res.data)
     const sqlText = `SELECT * FROM "feedback" ORDER BY "id"`;
     pool.query(sqlText).then(result => {
         res.send(result.rows)
