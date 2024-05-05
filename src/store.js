@@ -12,16 +12,17 @@ const feedbackSchema = (state = [
     { key: "feeling", route: "", header: "How are you feeling today?", topic: "Feeling?", value: "" },
     { key: "understanding", route: "understanding", header: "How well are you understanding the content?", topic: "Understanding?", value: "" },
     { key: "support", route: "support", header: "How well are you being supported?", topic: "Support?", value: "" },
-    { key: "comments", route: "comments", header: "Any comments you want to leave?", topic: "Comments", value: "" }
+    { key: "comments", route: "comments", header: "Any comments you want to leave?", topic: "Comments?", value: "" }
 
 ], action) => {
     if (action.type === 'SET_VALUE') {
-        state.map((feedback) => {
+        const temp = state.map((feedback) => {
             if (feedback.key === action.payload[0]) {
                 feedback.value = action.payload[1]
             }
             return feedback;
         })
+        return temp;
     }
     return state;
 }

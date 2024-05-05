@@ -41,6 +41,7 @@ function App() {
         ? `/${feedbackSchema[index + 1]?.route}`
         : '/review'
     );
+    setInputValue('');
   };
 
   return (
@@ -54,36 +55,39 @@ function App() {
           <div key={item.key} className="feedback-container">
             <Route exact path={`/${item.route}`}>
               <h1>{item.header}</h1>
-              <form>
-                <div className="feedback-input">
-                  <p className="feedback-topic">{item.topic}</p>
-                  <input
-                    type="text"
-                    value={inputValue}
-                    onChange={(event) => setInputValue(event.target.value)}
-                  />
-                  <br />
-                  <button
-                    type="button"
-                    onClick={() => handleSubmit(item.key, index)}
-                  >
-                    Next
-                  </button>
-                </div>
-              </form>
+              <div className="feedback-input">
+                <p className="feedback-topic">{item.topic}</p>
+                <input
+                  type="text"
+                  value={inputValue}
+                  onChange={(event) => setInputValue(event.target.value)}
+                />
+                <br />
+                <button
+                  type="submit"
+                  onClick={() => handleSubmit(item.key, index)}
+                >
+                  Next
+                </button>
+              </div>
             </Route>
           </div>
         );
       })}
       <Route exact path={`/review`}>
         <h1>Review Your Feedback</h1>
-        {feedbackSchema.map((feedback) => {
-          return (
-            <p key={feedback.key}>
-              {feedback.key}: {feedback.value}
-            </p>
-          );
-        })}
+        <div className="feedback-review-container">
+          <div className="feedback-review-content">
+            {feedbackSchema.map((feedback) => {
+              return (
+                <p className="feedback-text" key={feedback.key}>
+                  {feedback.key}: {feedback.value}
+                </p>
+              );
+            })}
+            <button>Submit</button>
+          </div>
+        </div>
       </Route>
     </div>
   );
