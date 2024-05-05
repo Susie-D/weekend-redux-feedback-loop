@@ -55,8 +55,9 @@ input {
   flex-direction: column;
 }
 
-.feedback-text {
+.thank-you-text {
   text-align: left;
+  padding: 2em;
 }
 
 .feedback-topic {

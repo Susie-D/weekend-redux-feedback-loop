@@ -3,6 +3,7 @@ import axios from 'axios';
 import './App.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { Route, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 
 function App() {
   const history = useHistory();
@@ -20,6 +21,7 @@ function App() {
       url: 'api/feedback',
     })
       .then((response) => {
+        console.log('GET', response.data);
         dispatch({
           type: 'SET_FEEDBACK',
           payload: response.data,
@@ -42,6 +44,27 @@ function App() {
         : '/review'
     );
     setInputValue('');
+  };
+
+  const handleSubmitPost = (review) => {
+    console.log('hey, review', review);
+    axios({
+      method: 'POST',
+      url: 'api/feedback',
+      data: review.map((item) => item.value),
+      // data: review.reduce((accum, item) => {
+      //   return {
+      //     ...accum,
+      //     [item.key]: item.value,
+      //   };
+      // }, {}),
+    })
+      .then((response) => {
+        history.push(`/thanks`);
+      })
+      .catch((error) => {
+        console.log('Adding review submit error:', error);
+      });
   };
 
   return (
@@ -85,7 +108,26 @@ function App() {
                 </p>
               );
             })}
-            <button>Submit</button>
+            <button
+              type="submit"
+              onClick={() => handleSubmitPost([...feedbackSchema])}
+            >
+              Submit
+            </button>
+          </div>
+        </div>
+      </Route>
+      <Route exact path={`/thanks`}>
+        <h1>Thank you for your feedback!</h1>
+        <div className="feedback-review-container">
+          <div className="feedback-review-content">
+            <h2 className="thank-you-text">
+              Please feel free to submit another one at your leisure.
+            </h2>
+
+            <Link to={'/'}>
+              <button type="button"> Leave New Feedback</button>
+            </Link>
           </div>
         </div>
       </Route>
