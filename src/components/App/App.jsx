@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './App.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { Route, useHistory } from 'react-router-dom';
-import { Link } from 'react-router-dom/cjs/react-router-dom.min';
+import { Route, useHistory, Link } from 'react-router-dom';
 
 function App() {
   const history = useHistory();
@@ -76,7 +75,7 @@ function App() {
       {feedbackSchema.map((item, index) => {
         return (
           <div key={item.key} className="feedback-container">
-            <Route exact path={`/${item.route}`}>
+            <Route exact path={`/`}>
               <h1>{item.header}</h1>
               <div className="feedback-input">
                 <p className="feedback-topic">{item.topic}</p>
