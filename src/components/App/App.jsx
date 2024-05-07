@@ -1,14 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import axios from 'axios';
 import './App.css';
-import { useDispatch, useSelector } from 'react-redux';
-import { Route, useHistory, Link } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { Route} from 'react-router-dom';
+import Feedback from '../Feedback/Feedback';
+import Review from '../Review/Review';
+import Thanks from '../Thanks/Thanks';
 
 function App() {
-  const history = useHistory();
-  const dispatch = useDispatch();
   const feedbackSchema = useSelector((store) => store.feedbackSchema);
-  const [inputValue, setInputValue] = useState('');
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     fetchFeedback();
@@ -31,41 +33,6 @@ function App() {
       });
   };
 
-  const handleSubmit = (item, index) => {
-    console.log(item, inputValue);
-    dispatch({
-      type: 'SET_VALUE',
-      payload: [item, inputValue],
-    });
-    history.push(
-      feedbackSchema[index + 1]?.route
-        ? `/${feedbackSchema[index + 1]?.route}`
-        : '/review'
-    );
-    setInputValue('');
-  };
-
-  const handleSubmitPost = (review) => {
-    console.log('hey, review', review);
-    axios({
-      method: 'POST',
-      url: 'api/feedback',
-      data: review.map((item) => item.value),
-      // data: review.reduce((accum, item) => {
-      //   return {
-      //     ...accum,
-      //     [item.key]: item.value,
-      //   };
-      // }, {}),
-    })
-      .then((response) => {
-        history.push(`/thanks`);
-      })
-      .catch((error) => {
-        console.log('Adding review submit error:', error);
-      });
-  };
-
   return (
     <div className="App">
       <header className="App-header">
@@ -76,64 +43,20 @@ function App() {
         return (
           <div key={item.key} className="feedback-container">
             <Route exact path={`/${item.route}`}>
-              <h1>{item.header}</h1>
-              <div className="feedback-input">
-                <p className="feedback-topic">{item.topic}</p>
-                <input
-                  type="text"
-                  data-testid="input"
-                  value={inputValue}
-                  onChange={(event) => setInputValue(event.target.value)}
-                />
-                <br />
-                <button
-                  type="submit"
-                  data-testid="next"
-                  onClick={() => handleSubmit(item.key, index)}
-                >
-                  Next
-                </button>
-              </div>
+              <Feedback
+                feedbackSchema={feedbackSchema}
+                item={item}
+                index={index}
+              />
             </Route>
           </div>
         );
       })}
       <Route exact path={`/review`}>
-        <h1>Review Your Feedback</h1>
-        <div className="feedback-review-container">
-          <div className="feedback-review-content">
-            {feedbackSchema.map((feedback) => {
-              return (
-                <p className="feedback-text" key={feedback.key}>
-                  {feedback.key}: {feedback.value}
-                </p>
-              );
-            })}
-            <button
-              data-testid="next"
-              type="submit"
-              onClick={() => handleSubmitPost([...feedbackSchema])}
-            >
-              Submit
-            </button>
-          </div>
-        </div>
+        <Review feedbackSchema={feedbackSchema} />
       </Route>
       <Route exact path={`/thanks`}>
-        <h1>Thank you for your feedback!</h1>
-        <div className="feedback-review-container">
-          <div className="feedback-review-content">
-            <h2 className="thank-you-text">
-              Please feel free to submit another one at your leisure.
-            </h2>
-
-            <Link to={'/'}>
-              <button type="button" data-testid="next">
-                Leave New Feedback
-              </button>
-            </Link>
-          </div>
-        </div>
+        <Thanks />
       </Route>
     </div>
   );
