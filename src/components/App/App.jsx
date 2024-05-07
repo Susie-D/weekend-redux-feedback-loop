@@ -75,7 +75,7 @@ function App() {
       {feedbackSchema.map((item, index) => {
         return (
           <div key={item.key} className="feedback-container">
-            <Route exact path={`/`}>
+            <Route exact path={`/${item.route}`}>
               <h1>{item.header}</h1>
               <div className="feedback-input">
                 <p className="feedback-topic">{item.topic}</p>
